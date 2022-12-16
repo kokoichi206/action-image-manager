@@ -1,0 +1,43 @@
+name: Deploy apk (Android)
+
+on:
+  # 手動実行できるようにする。
+  workflow_dispatch:
+  pull_request:
+    paths-ignore:
+      - 'docs/**'
+      - '**.md'
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment: production
+    defaults:
+      run:
+        working-directory: ./mobile/
+
+    timeout-minutes: 10
+
+    steps:
+      - name: Check out
+        uses: actions/checkout@v3
+
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.0.5'
+          channel: 'stable'
+      - run: flutter --version
+
+      # apk形式でビルドする。
+      - name: Build apk
+        run: flutter build apk
+
+      # artifact に保存する。
+      - name: Upload outputs files
+        uses: actions/upload-artifact@v2
+        with:
+          name: outputs
+          # 保存したいフォルダ（ここが適切かは検討）。
+          path: ./mobile/build/app/outputs/flutter-apk
+          if-no-files-found: error
+          retention-days: 3
