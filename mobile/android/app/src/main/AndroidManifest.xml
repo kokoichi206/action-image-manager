@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="jp.mydns.kokoichi0206.action.image.mobile">
+    package="jp.mydns.kokoichi0206.action.image.manager">
    <application
-        android:label="mobile"
+        android:label="Action Image Manager"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

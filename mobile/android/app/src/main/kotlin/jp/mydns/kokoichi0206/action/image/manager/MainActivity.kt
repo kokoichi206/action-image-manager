@@ -1,4 +1,4 @@
-package jp.mydns.kokoichi0206.action.image.mobile
+package jp.mydns.kokoichi0206.action.image.manager
 
 import io.flutter.embedding.android.FlutterActivity
 
