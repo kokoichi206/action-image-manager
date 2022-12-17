@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:mobile/data/local/shared_pref_manager.dart';
 import 'package:mobile/main.dart';
 import 'package:mobile/screen/signin/signin_ui_state.dart';
 
@@ -13,13 +14,16 @@ class SignInViewModel {
   SignInViewModel(this._loginApi);
 
   /// Sign In ボタンが押された時に呼ばれる。
-  Future<bool> onSignInClicked() async {
+  Future<void> onSignInClicked() async {
     // バリデーション
     if (uiState.userName.isEmpty || uiState.password.isEmpty) {
-      return false;
+      return;
     }
     logger.i("_checkAuth with userName: ${uiState.userName}");
-    return _checkAuth(uiState.userName, uiState.password);
+    final success = await _checkAuth(uiState.userName, uiState.password);
+    if (success) {
+      SharedPrefManager().writeLoggedIn(true);
+    }
   }
 
   /// 実際に判定を行う処理。
@@ -28,7 +32,7 @@ class SignInViewModel {
   /// [password] 入力されたパスワード。
   Future<bool> _checkAuth(String userName, String password) async {
     var response = await _loginApi.checkAuth(userName, password);
-    print("response.statusCode: ${response.statusCode}");
+    logger.i("response.statusCode: ${response.statusCode}");
     return response.statusCode == HttpStatus.ok;
   }
 
