@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:mobile/data/remote/login_api.dart';
+import 'package:mobile/screen/signin/signin_viewmodel.dart';
 import 'package:mobile/screen/signin/signin_ui_state.dart';
 import 'package:mobile/screen/util/widget/custom_input.dart';
 
@@ -11,7 +13,16 @@ class SignInScreen extends StatefulWidget {
 }
 
 class _SignInScreenState extends State<SignInScreen> {
-  SignInUiState uiState = SignInUiState();
+
+  // TODO: 適切に DI を行う。
+  SignInViewModel viewModel = SignInViewModel(LoginApi());
+  late SignInUiState uiState;
+
+  @override
+  void initState() {
+    uiState = viewModel.uiState;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -43,10 +54,12 @@ class _SignInScreenState extends State<SignInScreen> {
             OutlinedButton(
               style: OutlinedButton.styleFrom(
                 minimumSize: const Size(double.infinity, 0),
-                foregroundColor: buttonTextColor(),
-                backgroundColor: buttonBackgroundColor(),
+                foregroundColor: viewModel.buttonTextColor(),
+                backgroundColor: viewModel.buttonBackgroundColor(),
               ),
-              onPressed: () {},
+              onPressed: () {
+                viewModel.onSignInClicked();
+              },
               child: const Padding(
                 padding: EdgeInsets.only(top: 15, bottom: 15),
                 child: Text("Sign In"),
@@ -56,25 +69,5 @@ class _SignInScreenState extends State<SignInScreen> {
         ),
       ),
     );
-  }
-
-  bool filledIn() {
-    return uiState.userName != "" && uiState.password != "";
-  }
-
-  Color buttonTextColor() {
-    if (filledIn()) {
-      return Colors.white;
-    } else {
-      return Colors.black.withAlpha(127);
-    }
-  }
-
-  Color buttonBackgroundColor() {
-    if (filledIn()) {
-      return Colors.red.shade900;
-    } else {
-      return Colors.white;
-    }
   }
 }
