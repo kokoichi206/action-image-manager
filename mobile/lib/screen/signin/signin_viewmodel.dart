@@ -14,16 +14,17 @@ class SignInViewModel {
   SignInViewModel(this._loginApi);
 
   /// Sign In ボタンが押された時に呼ばれる。
-  Future<void> onSignInClicked() async {
+  Future<bool> onSignInClicked() async {
     // バリデーション
     if (uiState.userName.isEmpty || uiState.password.isEmpty) {
-      return;
+      return false;
     }
     logger.i("_checkAuth with userName: ${uiState.userName}");
     final success = await _checkAuth(uiState.userName, uiState.password);
     if (success) {
       SharedPrefManager().writeLoggedIn(true);
     }
+    return success;
   }
 
   /// 実際に判定を行う処理。

@@ -6,14 +6,17 @@ import 'package:mobile/screen/util/widget/custom_input.dart';
 
 /// SignIn 画面。
 class SignInScreen extends StatefulWidget {
-  const SignInScreen({Key? key}) : super(key: key);
+  /// ログイン状態の変化を伝えるコールバック。
+  final Function(bool loggedIn) onLoginChanged;
+
+  const SignInScreen({Key? key, required this.onLoginChanged})
+      : super(key: key);
 
   @override
   State<SignInScreen> createState() => _SignInScreenState();
 }
 
 class _SignInScreenState extends State<SignInScreen> {
-
   // TODO: 適切に DI を行う。
   SignInViewModel viewModel = SignInViewModel(LoginApi());
   late SignInUiState uiState;
@@ -57,8 +60,12 @@ class _SignInScreenState extends State<SignInScreen> {
                 foregroundColor: viewModel.buttonTextColor(),
                 backgroundColor: viewModel.buttonBackgroundColor(),
               ),
-              onPressed: () {
-                viewModel.onSignInClicked();
+              onPressed: () async {
+                final success = await viewModel.onSignInClicked();
+                if (success) {
+                  // ログインに成功したことを呼び出し元に伝える。
+                  widget.onLoginChanged(success);
+                }
               },
               child: const Padding(
                 padding: EdgeInsets.only(top: 15, bottom: 15),
