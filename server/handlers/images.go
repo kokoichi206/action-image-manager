@@ -5,14 +5,19 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/kokoichi206/action-image-manager/server/files"
+	"github.com/kokoichi206/action-image-manager/server/util"
 )
 
 type Images struct {
-	store files.Storage
+	store  files.Storage
+	config util.Config
 }
 
-func NewImages(s files.Storage) *Images {
-	return &Images{store: s}
+func NewImages(s files.Storage, c util.Config) *Images {
+	return &Images{
+		store: s,
+		config: c,
+	}
 }
 
 // ユーザー名に対して、写真一覧を取得する。
