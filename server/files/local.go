@@ -38,3 +38,17 @@ func (l *Local) GetAllDirNames() ([]string, error) {
 
 	return dirs, nil
 }
+
+func (l *Local) GetAllImagePaths(userName string) ([]string, error) {
+	path := filepath.Join(l.basePath, userName)
+	files, err := ioutil.ReadDir(path)
+	if err != nil {
+		return nil, errors.New("Unable to read dir")
+	}
+
+	images := []string{}
+	for _, file := range files {
+		images = append(images, file.Name())
+	}
+	return images, nil
+}

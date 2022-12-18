@@ -24,5 +24,8 @@ func main() {
 	uh := handlers.NewUsers(stor)
 	r.GET("/users", uh.AllUsers)
 
+	ih := handlers.NewImages(stor)
+	r.GET("/images", ih.AllImages)
+
 	r.Run(bindAddress)
 }
