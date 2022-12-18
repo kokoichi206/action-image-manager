@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"net/http"
 	"os"
 
 	"github.com/gin-gonic/gin"
@@ -26,6 +27,9 @@ func main() {
 
 	ih := handlers.NewImages(stor, config)
 	r.GET("/images", ih.AllImages)
+
+	// 静的ファイルのホスト
+	r.StaticFS("/images", http.Dir(config.ImageBasePath))
 
 	r.Run(config.BindAddress)
 }
