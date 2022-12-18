@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"path/filepath"
+	"strings"
 )
 
 type Local struct {
@@ -41,6 +42,9 @@ func (l *Local) GetAllDirNames() ([]string, error) {
 
 func (l *Local) GetAllImagePaths(userName string) ([]string, error) {
 	path := filepath.Join(l.basePath, userName)
+	if !l.isValidPath(path) {
+		return nil, errors.New("query parameter is not valid")
+	}
 	files, err := ioutil.ReadDir(path)
 	if err != nil {
 		return nil, errors.New("Unable to read dir")
@@ -51,4 +55,9 @@ func (l *Local) GetAllImagePaths(userName string) ([]string, error) {
 		images = append(images, file.Name())
 	}
 	return images, nil
+}
+
+func (l *Local) isValidPath(path string) bool {
+	// directory traversal を簡易的に防ぐ
+	return strings.Contains(path, l.basePath)
 }
