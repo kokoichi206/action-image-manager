@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mobile/screen/detail/detail_screen.dart';
 
 import '../../../main.dart';
 
@@ -12,6 +13,11 @@ class OneUser extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         logger.i("user: $user is tapped.");
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (context) => DetailScreen(userName: user),
+          ),
+        );
       },
       child: Padding(
         padding: const EdgeInsets.only(top: 10, bottom: 10, left: 10),
