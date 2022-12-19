@@ -21,11 +21,14 @@ class OneUser extends StatelessWidget {
       },
       child: Padding(
         padding: const EdgeInsets.only(top: 10, bottom: 10, left: 10),
-        child: Text(
-          user,
-          style: const TextStyle(
-            color: Colors.black,
-            fontSize: 20,
+        child: SizedBox(
+          width: double.infinity,
+          child: Text(
+            user,
+            style: const TextStyle(
+              color: Colors.black,
+              fontSize: 20,
+            ),
           ),
         ),
       ),
