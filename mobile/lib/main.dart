@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
 import 'package:mobile/data/local/shared_pref_manager.dart';
-import 'package:mobile/screen/main/main_screen.dart';
+import 'package:mobile/screen/main_list/main_list_screen.dart';
 import 'package:mobile/screen/signin/signin_screen.dart';
 
 var logger = Logger();
@@ -42,7 +42,7 @@ class _MyAppState extends State<MyApp> {
       home: (() {
         /// ログイン状態によってメイン画面とログイン画面のどちらを表示するかを切り替える。
         if (isLoggedIn) {
-          return const MainScreen();
+          return const MainListScreen();
         } else {
           return SignInScreen(
             onLoginChanged: (loggedInSuccess) {
