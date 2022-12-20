@@ -27,6 +27,7 @@ func main() {
 
 	ih := handlers.NewImages(stor, config)
 	r.GET("/images", ih.AllImages)
+	r.POST("/images", ih.UploadMultipart)
 
 	// 静的ファイルのホスト
 	r.StaticFS("/images", http.Dir(config.ImageBasePath))
