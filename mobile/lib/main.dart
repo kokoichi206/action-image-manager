@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:logger/logger.dart';
 import 'package:mobile/data/local/shared_pref_manager.dart';
 import 'package:mobile/screen/main_list/main_list_screen.dart';
@@ -6,7 +7,15 @@ import 'package:mobile/screen/signin/signin_screen.dart';
 
 var logger = Logger();
 
-void main() {
+void main() async {
+  // Enable Flutter Engine
+  WidgetsFlutterBinding.ensureInitialized();
+
+  // 画面の向きを固定！
+  await SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+  ]);
+
   runApp(const MyApp());
 }
 
