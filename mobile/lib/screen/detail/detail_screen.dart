@@ -3,7 +3,7 @@ import 'package:mobile/data/remote/images_api.dart';
 import 'package:mobile/main.dart';
 import 'package:mobile/screen/detail/detail_ui_state.dart';
 import 'package:mobile/screen/detail/detail_viewmodel.dart';
-import 'package:mobile/screen/util/images_manager.dart';
+import 'package:mobile/screen/detail/widget/one_image.dart';
 
 import '../util/my_colors.dart';
 
@@ -51,9 +51,17 @@ class _DetailScreenState extends State<DetailScreen> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            for (var uriFile in uiState.imageFiles ?? <UriFile>[]) ...[
-              Text(uriFile.uri),
-              Image.file(uriFile.file),
+            for (var chunkedImages in viewModel.chunkedImageFiles()) ...[
+              Row(
+                children: [
+                  for (var uriImage in chunkedImages) ...[
+                    Expanded(
+                      flex: 5,
+                      child: OneImage(uriFile: uriImage),
+                    )
+                  ],
+                ],
+              )
             ]
           ],
         ),
