@@ -53,14 +53,21 @@ class _DetailScreenState extends State<DetailScreen> {
           children: [
             for (var chunkedImages in viewModel.chunkedImageFiles()) ...[
               Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   for (var uriImage in chunkedImages) ...[
                     Expanded(
                       flex: 5,
                       child: OneImage(
                         uriFile: uriImage,
-                        onTapped: () async {
+                        onImageTapped: () async {
                           await viewModel.getImageFromGalley(uriImage);
+                          setState(() {
+                            uriImage;
+                          });
+                        },
+                        onNumberChanged: (actionNumber) {
+                          uriImage.actionNumber = actionNumber;
                           setState(() {
                             uriImage;
                           });

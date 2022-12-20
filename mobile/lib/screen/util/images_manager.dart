@@ -6,10 +6,11 @@ import 'package:mobile/data/remote/constants.dart';
 import 'package:mobile/main.dart';
 
 class UriFile {
-  String uri;
+  String fileName;
   File file;
+  int actionNumber;
 
-  UriFile(this.uri, this.file);
+  UriFile(this.fileName, this.file, this.actionNumber);
 }
 
 Future<UriFile> convertUriToFile(String userName, String fileName) async {
@@ -25,7 +26,7 @@ Future<UriFile> convertUriToFile(String userName, String fileName) async {
     logger.e("error happened when convertUriToFile");
     file = notFoundFile();
   }
-  return UriFile(fileName, file);
+  return UriFile(fileName, file, getActionNumberFromFileName(fileName));
 }
 
 /// 画像が置いてあるパスを返す。
@@ -36,4 +37,20 @@ String fullURL(String userName, String fileName) {
 /// 画像取得失敗時のデフォルト画像。
 File notFoundFile() {
   return File("images/not_found.png");
+}
+
+/// ファイル名から、必要なアクション数を取得する。
+/// e.g.) 3.png => 3
+int getActionNumberFromFileName(String fileName) {
+  var separatorIndex = fileName.indexOf(".");
+  final actionNumStr = fileName.substring(0, separatorIndex);
+
+  int result;
+  try {
+    result = int.parse(actionNumStr);
+  } catch (e) {
+    // FIXME: どうするのが適切か考える。
+    result = 0;
+  }
+  return result;
 }
