@@ -4,8 +4,10 @@ import 'package:http/http.dart' as http;
 import 'package:mobile/data/remote/constants.dart';
 import 'package:mobile/data/remote/model/fetch_images_response.dart';
 import 'package:mobile/data/remote/model/fetch_users_response.dart';
+import 'package:http_parser/http_parser.dart';
 
 import '../../main.dart';
+import '../../screen/util/images_manager.dart';
 
 /// Images に関する API。
 class ImagesApi {
@@ -35,5 +37,40 @@ class ImagesApi {
     final json = jsonDecode(body);
 
     return FetchImagesResponse.fromJson(json);
+  }
+
+  void multipartPost(String userName, List<UriFile> uriFiles) async {
+    logger.i("multipart called: $uriFiles");
+    var url = Uri.parse("$baseURL/images");
+    var request = http.MultipartRequest("POST", url);
+
+    // 最大5枚の写真ファイルを送信する。
+    const maxFilesCounts = 5;
+
+    int counter = 1;
+    for (var uriFile in uriFiles) {
+      if (counter > maxFilesCounts) {
+        break;
+      }
+      final extension = getExtension(uriFile.fileName);
+      final mimeType = getMimeType(extension);
+      final fileName = getFileName(extension, uriFile.actionNumber);
+      logger.i(
+          "(extension, mimeType, fileName) = ($extension, $mimeType, $fileName)");
+
+      request.files.add(http.MultipartFile.fromBytes(
+        "field$counter",
+        uriFile.file.readAsBytesSync(),
+        filename: fileName,
+        contentType: MediaType.parse(mimeType),
+      ));
+
+      counter += 1;
+    }
+
+    var fields = {"person": userName};
+    request.fields.addAll(fields);
+
+    request.send().then((response) => logger.i(response));
   }
 }

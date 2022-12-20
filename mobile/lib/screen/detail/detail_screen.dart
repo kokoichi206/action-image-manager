@@ -77,7 +77,13 @@ class _DetailScreenState extends State<DetailScreen> {
                   ],
                 ],
               )
-            ]
+            ],
+            TextButton(
+                onPressed: () {
+                  viewModel.onUploadButtonClicked();
+                },
+                child: const Text("送信"),
+            ),
           ],
         ),
       ),

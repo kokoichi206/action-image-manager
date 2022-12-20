@@ -54,3 +54,19 @@ int getActionNumberFromFileName(String fileName) {
   }
   return result;
 }
+
+/// ファイル名から拡張子を取得する。
+/// e.g.) 3.png => png
+String getExtension(String fileName) {
+  final lastIndex = fileName.lastIndexOf(".");
+  final extension = fileName.substring(lastIndex + 1);
+  return extension;
+}
+
+String getMimeType(String extension) {
+  return "image/$extension";
+}
+
+String getFileName(String extension, int actionNumber) {
+  return "$actionNumber.$extension";
+}

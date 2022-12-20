@@ -43,7 +43,7 @@ class DetailViewModel {
 
   Future getImageFromGalley(UriFile uriFile) async {
     final pickedFile = await imagePicker.pickImage(
-        source: ImageSource.gallery,
+      source: ImageSource.gallery,
     );
     if (pickedFile != null) {
       final fileSize = uriFile.file.lengthSync();
@@ -52,6 +52,18 @@ class DetailViewModel {
         return;
       }
       uriFile.file = File(pickedFile.path);
+
+      final path = pickedFile.path;
+      final lastSeparator = path.lastIndexOf(Platform.pathSeparator);
+      final fileName = path.substring(lastSeparator + 1);
+      uriFile.fileName = fileName;
+    }
+  }
+
+  void onUploadButtonClicked() {
+    // FIXME: ここ、もう少し上手く書けない？
+    if (uiState.imageFiles != null) {
+      _imagesApi.multipartPost(uiState.user, uiState.imageFiles!);
     }
   }
 }
