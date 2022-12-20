@@ -73,7 +73,14 @@ class _DetailScreenState extends State<DetailScreen> {
                           });
                         },
                       ),
-                    )
+                    ),
+                    // FIXME: もっとスマートにしたい。。。
+                    if (chunkedImages.length != 2) ...[
+                      const Expanded(
+                        flex: 5,
+                        child: SizedBox(),
+                      ),
+                    ]
                   ],
                 ],
               )
