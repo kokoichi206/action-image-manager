@@ -57,7 +57,15 @@ class _DetailScreenState extends State<DetailScreen> {
                   for (var uriImage in chunkedImages) ...[
                     Expanded(
                       flex: 5,
-                      child: OneImage(uriFile: uriImage),
+                      child: OneImage(
+                        uriFile: uriImage,
+                        onTapped: () async {
+                          await viewModel.getImageFromGalley(uriImage);
+                          setState(() {
+                            uriImage;
+                          });
+                        },
+                      ),
                     )
                   ],
                 ],

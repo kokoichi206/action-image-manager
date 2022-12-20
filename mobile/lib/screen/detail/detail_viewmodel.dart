@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:image_picker/image_picker.dart';
 import 'package:mobile/data/remote/images_api.dart';
 import 'package:mobile/main.dart';
 import 'package:mobile/screen/util/images_manager.dart';
@@ -7,14 +10,18 @@ import 'detail_ui_state.dart';
 class DetailViewModel {
   final ImagesApi _imagesApi;
   DetailUiState uiState = DetailUiState(user: "");
+  final imagePicker = ImagePicker();
+
+  // Constants
+  final maxFileSize = 2000000;
 
   DetailViewModel(this._imagesApi);
 
   Future<void> fetchImages() async {
     uiState.imagePaths = (await _imagesApi.fetchImages(uiState.user)).images;
 
-    uiState.imageFiles = await Future.wait(
-        (uiState.imagePaths ?? []).map((e) => convertUriToFile(uiState.user, e)));
+    uiState.imageFiles = await Future.wait((uiState.imagePaths ?? [])
+        .map((e) => convertUriToFile(uiState.user, e)));
     return;
   }
 
@@ -32,5 +39,19 @@ class DetailViewModel {
     }
     logger.i("chunks $chunks");
     return chunks;
+  }
+
+  Future getImageFromGalley(UriFile uriFile) async {
+    final pickedFile = await imagePicker.pickImage(
+        source: ImageSource.gallery,
+    );
+    if (pickedFile != null) {
+      final fileSize = uriFile.file.lengthSync();
+      if (fileSize >= maxFileSize) {
+        logger.i("fileSize $fileSize is greater than $maxFileSize");
+        return;
+      }
+      uriFile.file = File(pickedFile.path);
+    }
   }
 }

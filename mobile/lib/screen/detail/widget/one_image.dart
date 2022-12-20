@@ -5,14 +5,17 @@ import '../../../main.dart';
 
 class OneImage extends StatelessWidget {
   final UriFile uriFile;
+  final Function() onTapped;
 
-  const OneImage({Key? key, required this.uriFile}) : super(key: key);
+  const OneImage({Key? key, required this.uriFile, required this.onTapped})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
         logger.i("user: ${uriFile.uri} is tapped.");
+        onTapped();
       },
       child: Padding(
         padding: const EdgeInsets.only(top: 10, bottom: 10, left: 10),
