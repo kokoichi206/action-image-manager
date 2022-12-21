@@ -42,16 +42,17 @@ class DetailViewModel {
   }
 
   Future getImageFromGalley(UriFile uriFile) async {
-    final pickedFile = await imagePicker.pickImage(
+    final pickedXFile = await imagePicker.pickImage(
       source: ImageSource.gallery,
     );
-    if (pickedFile != null) {
-      final fileSize = uriFile.file.lengthSync();
+    if (pickedXFile != null) {
+      final pickedFile = File(pickedXFile.path);
+      final fileSize = pickedFile.lengthSync();
       if (fileSize >= maxFileSize) {
         logger.i("fileSize $fileSize is greater than $maxFileSize");
         return;
       }
-      uriFile.file = File(pickedFile.path);
+      uriFile.file = pickedFile;
 
       final path = pickedFile.path;
       final lastSeparator = path.lastIndexOf(Platform.pathSeparator);

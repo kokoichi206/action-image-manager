@@ -1,16 +1,16 @@
 # mobile
 
-A new Flutter project.
+## Screens
 
-## Getting Started
+| Features                                                                                                      |                    Screen                    |
+| :------------------------------------------------------------------------------------------------------------ | :------------------------------------------: |
+| ログイン画面<br />・API を叩いてログイン認証を行う（仮）<br />[> Source Code](./lib/screen/signin/)           | <img src="docs/login_screen.png" width=200>  |
+| リスト画面<br />・認証後に表示される<br />[> Source Code](./lib/screen/main_list/)                            |  <img src="docs/list_screen.png" width=200>  |
+| 詳細画面<br />・リスト画面からの遷移<br />・写真の変更・送信が可能<br />[> Source Code](./lib/screen/detail/) | <img src="docs/detail_screen.png" width=200> |
 
-This project is a starting point for a Flutter application.
+## Libraries
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+- http
+- image_picker
+- numberpicker
+- freezed
