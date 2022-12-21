@@ -68,6 +68,7 @@ class _DetailScreenState extends State<DetailScreen> {
                         },
                         onNumberChanged: (actionNumber) {
                           uriImage.actionNumber = actionNumber;
+                          uiState.sortImageFilesByActionNumbers();
                           setState(() {
                             uriImage;
                           });

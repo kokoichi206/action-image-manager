@@ -10,4 +10,8 @@ class DetailUiState {
     required this.user,
     this.imagePaths,
   });
+
+  void sortImageFilesByActionNumbers() {
+    imageFiles?.sort((a, b) => a.actionNumber - b.actionNumber);
+  }
 }

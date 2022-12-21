@@ -22,6 +22,7 @@ class DetailViewModel {
 
     uiState.imageFiles = await Future.wait((uiState.imagePaths ?? [])
         .map((e) => convertUriToFile(uiState.user, e)));
+    uiState.sortImageFilesByActionNumbers();
     return;
   }
 
@@ -59,6 +60,7 @@ class DetailViewModel {
       final fileName = path.substring(lastSeparator + 1);
       uriFile.fileName = fileName;
     }
+    uiState.sortImageFilesByActionNumbers();
   }
 
   void onUploadButtonClicked() {
